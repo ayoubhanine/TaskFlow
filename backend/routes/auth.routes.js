@@ -3,11 +3,17 @@ import {
   register,
   login,
 } from "../controllers/auth.controller.js";
-import { protect } from "./middlewares/auth.middleware.js";
+import { protect } from "../middlewares/auth.middleware.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import { registerSchema,loginSchema } from "../validators/auth.validator.js";
 
 const router = express.Router();
 
-router.post("/register", register);
-router.post("/login", login);
+router.post(
+  "/register",
+  validate(registerSchema),
+  register
+);
+router.post("/login",validate(loginSchema), login);
 
 export default router;
