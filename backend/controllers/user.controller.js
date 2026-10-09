@@ -5,6 +5,23 @@ import {
   deleteUser,
 } from "../services/user.service.js";
 
+export const getMembers = async (req, res) => {
+  try {
+    const users = await getUsers();
+    const members = users.filter((user) => user.role === "member");
+
+    res.status(200).json({
+      success: true,
+      data: members,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getAll = async (req, res) => {
   try {
     const users = await getUsers();
