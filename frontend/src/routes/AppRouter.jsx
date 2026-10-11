@@ -17,6 +17,7 @@ import MemberDashboard from "../pages/dashboard/MemberDashboard";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import RoleRoute from "../components/common/RoleRoute";
 // import NotFound from "../pages/NotFound";
+import Users from "../pages/users/Users";
 
 function AppRouter() {
   return (
@@ -40,6 +41,7 @@ function AppRouter() {
               />
                <Route path="/admin/projects" element={<Projects />} />
                <Route path="/admin/tasks" element={<Tasks />} />
+               <Route path="/admin/users" element={<Users />} />
             </Route>
 
             {/* Manager */}
