@@ -38,8 +38,20 @@ export const createTask = async ({
   return task;
 };
 
-export const getTasks = async () => {
-  return await Task.find()
+// export const getTasks = async () => {
+//   return await Task.find()
+//     .populate("project", "name")
+//     .populate("assignedTo", "firstName lastName email");
+// };
+export const getTasks = async (user) => {
+  let filter = {};
+
+  // Members can only see their assigned tasks
+  if (user.role === "member") {
+    filter.assignedTo = user.id;
+  }
+
+  return await Task.find(filter)
     .populate("project", "name")
     .populate("assignedTo", "firstName lastName email");
 };

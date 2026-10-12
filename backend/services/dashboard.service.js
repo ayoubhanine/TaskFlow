@@ -16,3 +16,28 @@ export const getDashboardStats = async () => {
     users,
   };
 };
+
+export const getTaskDashboardStats = async (user) => {
+  const filter = {};
+
+  // Members only see their assigned tasks
+  if (user.role === "member") {
+    filter.assignedTo = user.id;
+  }
+
+  const [totalTasks, completedTasks, pendingTasks] =
+    await Promise.all([
+      Task.countDocuments(filter),
+      Task.countDocuments({ ...filter, status: "done" }),
+      Task.countDocuments({
+        ...filter,
+        status: { $ne: "done" },
+      }),
+    ]);
+
+  return {
+    totalTasks,
+    completedTasks,
+    pendingTasks,
+  };
+};

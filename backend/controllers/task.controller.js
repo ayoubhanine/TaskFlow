@@ -25,7 +25,8 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const tasks = await getTasks();
+    // const tasks = await getTasks();
+    const tasks = await getTasks(req.user);
 
     res.status(200).json({
       success: true,

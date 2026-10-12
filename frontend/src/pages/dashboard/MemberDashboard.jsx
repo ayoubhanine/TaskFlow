@@ -10,6 +10,7 @@ import {
 } from "react-icons/fi";
 
 import { getProjects } from "../../features/projects/projectSlice";
+import { getTaskDashboardStats } from "../../features/dashboard/dashboardSlice";
 
 export default function MemberDashboard() {
   const dispatch = useDispatch();
@@ -21,8 +22,14 @@ export default function MemberDashboard() {
     isLoading,
   } = useSelector((state) => state.projects);
 
+  const {
+    taskStats,
+    isLoadingTaskStats,
+  } = useSelector((state) => state.dashboard);
+
   useEffect(() => {
     dispatch(getProjects());
+    dispatch(getTaskDashboardStats());
   }, [dispatch]);
 
   const firstName = user?.firstName || "Member";
@@ -36,13 +43,13 @@ export default function MemberDashboard() {
     },
     {
       label: "My Tasks",
-      value: "—",
+      value: isLoadingTaskStats ? "..." : taskStats.totalTasks,
       icon: FiCheckSquare,
       color: "bg-amber-50 text-amber-600",
     },
     {
       label: "Completed Tasks",
-      value: "—",
+      value: isLoadingTaskStats ? "..." : taskStats.completedTasks,
       icon: FiClipboard,
       color: "bg-emerald-50 text-emerald-600",
     },
